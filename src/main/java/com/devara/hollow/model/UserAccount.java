@@ -11,6 +11,10 @@ public class UserAccount {
     private String username;
     private boolean active;
 
+    // Default constructor required for Jackson deserialization
+    public UserAccount() {
+    }
+
     // Standard constructor, getters, and setters
     public UserAccount(long id, String username, boolean active) {
         this.id = id;

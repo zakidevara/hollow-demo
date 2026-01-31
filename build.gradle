@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'me.champeau.jmh' version '0.7.2'
 }
 
 group = 'com.devara'
@@ -39,8 +40,23 @@ dependencies {
     // AWS SDK for S3 (optional - only needed when using S3 profile)
     implementation platform('software.amazon.awssdk:bom:2.29.51')
     implementation 'software.amazon.awssdk:s3'
+    
+    // Kafka Streams for KTable support
+    implementation 'org.apache.kafka:kafka-streams:3.7.0'
+    implementation 'org.springframework.kafka:spring-kafka:3.2.0'
+    
+    // Jackson for JSON serialization
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jmh {
+    iterations = 5
+    warmupIterations = 3
+    fork = 1
+    resultFormat = 'JSON'
+    resultsFile = project.file("${project.buildDir}/reports/jmh/results.json")
 }
